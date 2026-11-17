@@ -3,85 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MEP Energy Master Suite - Offline Standalone Toolkit</title>
+  <title>Học Viện Kỹ Sư HVAC & Kiểm Toán Năng Lượng MEP (MEP Master Academy & Engineering Suite)</title>
   <style>
     :root {
-      --primary: #1A365D;
-      --primary-light: #2B6CB0;
-      --accent: #007791;
-      --bg: #F7FAFC;
+      --primary: #0F2537;
+      --primary-accent: #1A365D;
+      --secondary: #2B6CB0;
+      --teal: #0D9488;
+      --bg: #F8FAFC;
       --card-bg: #FFFFFF;
-      --text: #2D3748;
-      --text-muted: #718096;
+      --text: #1E293B;
+      --text-muted: #64748B;
       --border: #E2E8F0;
-      --success: #38A169;
-      --warning: #DD6B20;
-      --danger: #E53E3E;
-      --input-bg: #FEFCBF;
-      --calc-bg: #EDF2F7;
+      --success: #16A34A;
+      --warning: #D97706;
+      --danger: #DC2626;
+      --input-bg: #FEF9C3;
+      --calc-bg: #F1F5F9;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
     body { background-color: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
-    
-    /* Sidebar */
-    .sidebar { width: 280px; background-color: var(--primary); color: white; display: flex; flex-direction: column; flex-shrink: 0; }
-    .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .sidebar-header h2 { font-size: 1.15rem; font-weight: 700; color: #FFF; line-height: 1.3; }
-    .sidebar-header p { font-size: 0.75rem; color: #CBD5E0; margin-top: 5px; }
-    .sidebar-badge { display: inline-block; padding: 2px 8px; background: rgba(72, 187, 120, 0.2); color: #68D391; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-top: 8px; }
-    
-    .nav-tabs { list-style: none; padding: 10px 0; overflow-y: auto; flex: 1; }
-    .nav-item { padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; font-size: 0.88rem; color: #E2E8F0; transition: all 0.2s; border-left: 4px solid transparent; }
-    .nav-item:hover { background-color: rgba(255,255,255,0.08); color: white; }
-    .nav-item.active { background-color: rgba(255,255,255,0.15); color: white; font-weight: 600; border-left-color: #63B3ED; }
-    .nav-icon { width: 20px; height: 20px; fill: currentColor; }
 
-    /* Main Container */
+    /* Sidebar Navigation */
+    .sidebar { width: 330px; background-color: var(--primary); color: white; display: flex; flex-direction: column; flex-shrink: 0; border-right: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-header { padding: 22px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-header h1 { font-size: 1.15rem; font-weight: 700; color: #FFFFFF; line-height: 1.3; }
+    .sidebar-header p { font-size: 0.76rem; color: #94A3B8; margin-top: 4px; }
+    .sidebar-badge { display: inline-block; padding: 3px 8px; background: rgba(13, 148, 136, 0.25); color: #2DD4BF; border-radius: 4px; font-size: 0.7rem; font-weight: 600; margin-top: 8px; }
+
+    .nav-container { flex: 1; overflow-y: auto; padding: 12px 0; }
+    .nav-group-title { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94A3B8; padding: 12px 20px 6px; font-weight: 700; }
+    .nav-item { padding: 10px 20px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #CBD5E1; transition: all 0.15s; border-left: 3px solid transparent; }
+    .nav-item:hover { background-color: rgba(255,255,255,0.06); color: white; }
+    .nav-item.active { background-color: rgba(43, 108, 176, 0.25); color: #60A5FA; font-weight: 600; border-left-color: #3B82F6; }
+
+    /* Main Content */
     .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #F8FAFC; }
     .topbar { height: 56px; background: white; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 25px; flex-shrink: 0; }
-    .topbar-title { font-size: 1rem; font-weight: 600; color: var(--primary); }
+    .topbar-title { font-size: 0.95rem; font-weight: 700; color: var(--primary-accent); }
     .topbar-actions { display: flex; gap: 10px; }
-    .btn { padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.2s; }
-    .btn-primary { background: var(--primary-light); color: white; }
-    .btn-primary:hover { background: #2B6CB0; }
+    .btn { padding: 7px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+    .btn-primary { background: var(--secondary); color: white; }
+    .btn-primary:hover { background: #1D4ED8; }
     .btn-outline { background: white; border-color: var(--border); color: var(--text); }
-    .btn-outline:hover { background: #EDF2F7; }
+    .btn-outline:hover { background: #F1F5F9; }
 
-    .content-area { flex: 1; overflow-y: auto; padding: 25px; }
+    .content-area { flex: 1; overflow-y: auto; padding: 25px 30px; }
     .tab-pane { display: none; }
     .tab-pane.active { display: block; animation: fadeIn 0.2s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Cards & Layout */
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    /* Cards & Components */
+    .lecture-header { background: linear-gradient(135deg, #1E293B, #0F172A); color: white; padding: 22px 26px; border-radius: 10px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .lecture-header h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .lecture-header p { font-size: 0.85rem; color: #94A3B8; line-height: 1.5; }
+    .lecture-meta { display: flex; gap: 15px; margin-top: 12px; font-size: 0.75rem; }
+    .meta-tag { background: rgba(255,255,255,0.12); padding: 3px 10px; border-radius: 4px; color: #E2E8F0; }
+
+    .grid-2 { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; margin-bottom: 24px; }
+    .grid-equal-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px; }
-    .card { background: white; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); padding: 20px; margin-bottom: 20px; }
-    .card-header { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    
-    /* Forms */
-    .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: #4A5568; margin-bottom: 5px; }
-    .input-row { display: flex; align-items: center; gap: 10px; }
-    .form-control { width: 100%; padding: 8px 12px; border-radius: 5px; border: 1px solid #CBD5E0; font-size: 0.9rem; background: var(--input-bg); transition: border 0.2s; }
-    .form-control:focus { outline: none; border-color: var(--primary-light); background: white; }
-    .unit { font-size: 0.82rem; color: var(--text-muted); min-width: 60px; }
 
-    /* Results Box */
-    .metric-box { background: var(--calc-bg); border-radius: 6px; padding: 12px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-    .metric-label { font-size: 0.85rem; color: #4A5568; }
-    .metric-val { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
-    .badge { padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
-    .badge-pass { background: #C6F6D5; color: #22543D; }
-    .badge-warn { background: #FEEBC8; color: #7B341E; }
-    .badge-fail { background: #FED7D7; color: #742A2A; }
+    .card { background: white; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.04); padding: 20px 22px; margin-bottom: 20px; }
+    .card-title { font-size: 0.95rem; font-weight: 700; color: var(--primary-accent); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 
-    /* Tables */
-    .table-container { overflow-x: auto; margin-top: 15px; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    th { background: #2B6CB0; color: white; text-align: left; padding: 10px 12px; font-weight: 600; }
-    td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: #2D3748; }
-    tr:nth-child(even) td { background: #F7FAFC; }
-    tr:hover td { background: #EDF2F7; }
+    /* Deep Dive Article Prose */
+    .prose { font-size: 0.88rem; line-height: 1.7; color: #334155; }
+    .prose h3 { font-size: 1rem; color: #0F172A; margin: 16px 0 8px; font-weight: 700; }
+    .prose p { margin-bottom: 12px; }
+    .prose ul, .prose ol { margin-left: 20px; margin-bottom: 12px; }
+    .prose li { margin-bottom: 6px; }
+    .prose code { background: #F1F5F9; color: #0369A1; padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; font-family: Consolas, monospace; }
+    .callout { background: #F0FDF4; border-left: 4px solid #16A34A; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 14px 0; font-size: 0.84rem; }
+    .callout-warn { background: #FFFBEB; border-left-color: #D97706; color: #78350F; }
+    .callout-alert { background: #FEF2F2; border-left-color: #DC2626; color: #7F1D1D; }
+
+    /* Interactive Calculator Forms */
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #475569; margin-bottom: 4px; }
+    .input-row { display: flex; align-items: center; gap: 8px; }
+    .form-control { width: 100%; padding: 7px 11px; border-radius: 5px; border: 1px solid #CBD5E1; font-size: 0.88rem; background: var(--input-bg); transition: border 0.15s; }
+    .form-control:focus { outline: none; border-color: var(--secondary); background: white; }
+    .unit { font-size: 0.8rem; color: var(--text-muted); min-width: 50px; }
+
+    /* Metrics & Badges */
+    .metric-box { background: var(--calc-bg); border-radius: 6px; padding: 10px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .metric-label { font-size: 0.82rem; color: #475569; }
+    .metric-val { font-size: 1.05rem; font-weight: 700; color: var(--primary-accent); }
+    .badge { padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
+    .badge-pass { background: #DCFCE7; color: #166534; }
+    .badge-warn { background: #FEF3C7; color: #92400E; }
+    .badge-fail { background: #FEE2E2; color: #991B1B; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin-top: 10px; }
+    th { background: #1E293B; color: white; text-align: left; padding: 8px 10px; font-weight: 600; }
+    td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: #334155; }
+    tr:nth-child(even) td { background: #F8FAFC; }
+    tr:hover td { background: #F1F5F9; }
 
     @media print {
       .sidebar, .topbar { display: none; }
@@ -96,578 +114,603 @@
   <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sidebar-header">
-      <h2>MEP Energy Master</h2>
-      <p>HVAC & Energy Auditor Suite</p>
-      <span class="sidebar-badge">● 100% OFFLINE LOCAL</span>
+      <h1>Học Viện Kỹ Sư MEP</h1>
+      <p>Chương trình Đào tạo Chuyên sâu & Bộ Tool</p>
+      <span class="sidebar-badge">● CHUẨN ASHRAE & ISO 500XX (100% OFFLINE)</span>
     </div>
-    <ul class="nav-tabs">
-      <li class="nav-item active" onclick="switchTab('tab-dash')">
-        <span>📊 Tổng quan Dashboard</span>
-      </li>
-      <li class="nav-item" onclick="switchTab('tab-psy')">
-        <span>🌡️ Mod 1: Nhiệt ẩm & Tải lạnh</span>
-      </li>
-      <li class="nav-item" onclick="switchTab('tab-fluid')">
-        <span>💨 Mod 2: Khí động & Thủy lực</span>
-      </li>
-      <li class="nav-item" onclick="switchTab('tab-plant')">
-        <span>❄️ Mod 3: Trạm Chiller & Bơm nhiệt</span>
-      </li>
-      <li class="nav-item" onclick="switchTab('tab-facility')">
-        <span>🏥 Mod 4: Công trình Chuyên biệt</span>
-      </li>
-      <li class="nav-item" onclick="switchTab('tab-code')">
-        <span>📐 Mod 5: Quy chuẩn QCVN 09 / ASHRAE</span>
-      </li>
-      <li class="nav-item" onclick="switchTab('tab-audit')">
-        <span>🔍 Mod 6: Kiểm toán ISO 50002 & LCCA</span>
-      </li>
-      <li class="nav-item" onclick="switchTab('tab-cxtab')">
-        <span>⚖️ Mod 7: Nghiệm thu TAB & FDD</span>
-      </li>
-    </ul>
-    <div style="padding: 15px 20px; font-size: 0.72rem; color: #A0AEC0; border-top: 1px solid rgba(255,255,255,0.1);">
-      RFR Engineering & Energy Group<br>
-      ASHRAE Fundamentals & ISO 50002
+    
+    <div class="nav-container">
+      <div class="nav-group-title">TỔNG QUAN</div>
+      <div class="nav-item active" onclick="switchTab('tab-home')">
+        <span>🏛️ Bảng Điều Khiển & Lộ Trình</span>
+      </div>
+
+      <div class="nav-group-title">PHẦN 1: BÀI GIẢNG & NGUYÊN LÝ THIẾT KẾ</div>
+      <div class="nav-item" onclick="switchTab('tab-mod1')">
+        <span>📖 Bài 1: Nhiệt ẩm & Tải lạnh RTS</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('tab-mod2')">
+        <span>📖 Bài 2: Khí động & Thủy lực Mạng ống</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('tab-mod3')">
+        <span>📖 Bài 3: Trạm Chiller VPF & Heat Pump</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('tab-mod4')">
+        <span>📖 Bài 4: Thiết kế 5 Loại hình Công trình</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('tab-mod5')">
+        <span>📖 Bài 5: Quy chuẩn QCVN 09 & ASHRAE 90.1</span>
+      </div>
+
+      <div class="nav-group-title">PHẦN 2: TỐI ƯU VẬN HÀNH & KIỂM TOÁN NĂNG LƯỢNG</div>
+      <div class="nav-item" onclick="switchTab('tab-mod6')">
+        <span>🔍 Bài 6: Kiểm toán ISO 50002 & LCCA</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('tab-mod7')">
+        <span>⚖️ Bài 7: Nghiệm thu TAB & Bắt bệnh FDD</span>
+      </div>
+
+      <div class="nav-group-title">PHẦN 3: WORKSHOP THỰC CHIẾN DỰ ÁN</div>
+      <div class="nav-item" onclick="switchTab('tab-case')">
+        <span>🏢 Case Study: Tòa nhà VP 25 Tầng</span>
+      </div>
+    </div>
+
+    <div style="padding: 12px 20px; font-size: 0.72rem; color: #64748B; border-top: 1px solid rgba(255,255,255,0.08);">
+      RFR Engineering & Energy Audit Group<br>Phiên bản Đào tạo Thực chiến v2.0
     </div>
   </div>
 
   <!-- MAIN -->
   <div class="main">
     <div class="topbar">
-      <div class="topbar-title" id="page-title">00_DASHBOARD: BẢNG ĐIỀU KHIỂN TỔNG QUAN</div>
+      <div class="topbar-title" id="page-title">HỌC VIỆN KỸ SƯ HVAC & KIỂM TOÁN VIÊN MEP THỰC CHIẾN</div>
       <div class="topbar-actions">
-        <button class="btn btn-outline" onclick="window.print()">🖨️ In / Xuất PDF</button>
-        <button class="btn btn-primary" onclick="alert('Dữ liệu tính toán đang chạy hoàn toàn Offline trên máy tính cá nhân!')">💾 Trạng thái: Sẵn sàng</button>
+        <button class="btn btn-outline" onclick="window.print()">🖨️ In Báo Cáo / Xuất PDF</button>
+        <button class="btn btn-primary" onclick="alert('Toàn bộ hệ thống bài giảng, công thức và mô phỏng đang hoạt động hoàn toàn Offline cục bộ trên máy tính!')">💾 Local Mode: Sẵn sàng</button>
       </div>
     </div>
 
     <div class="content-area">
 
-      <!-- TAB 0: DASHBOARD -->
-      <div id="tab-dash" class="tab-pane active">
-        <div class="card">
-          <div class="card-header">
-            <span>THÔNG TIN DỰ ÁN MEP & KIỂM TOÁN NĂNG LƯỢNG</span>
-            <span class="badge badge-pass">Local Active</span>
-          </div>
-          <div class="grid-3">
-            <div>
-              <label style="font-size:0.75rem; color:var(--text-muted);">TÊN CÔNG TRÌNH</label>
-              <div style="font-weight:700; color:var(--primary); font-size:1rem;">TÒA NHÀ TRUNG TÂM SAO KHUÊ</div>
-            </div>
-            <div>
-              <label style="font-size:0.75rem; color:var(--text-muted);">ĐỊA ĐIỂM & KHÍ HẬU</label>
-              <div style="font-weight:600;">TP. Hồ Chí Minh (QCVN 02:2022)</div>
-            </div>
-            <div>
-              <label style="font-size:0.75rem; color:var(--text-muted);">HỆ THỐNG HVAC CHÍNH</label>
-              <div style="font-weight:600;">Chiller giải nhiệt nước VPF + AHU/VAV</div>
-            </div>
+      <!-- TAB HOME: DASHBOARD & ROADMAP -->
+      <div id="tab-home" class="tab-pane active">
+        <div class="lecture-header">
+          <h2>CHƯƠNG TRÌNH ĐÀO TẠO KỸ SƯ MỚI VÀO NGHỀ THÀNH CHUYÊN GIA MEP & AUDITOR</h2>
+          <p>Phương pháp đào tạo "Learning by Building Tools": Không dùng phần mềm hộp đen black-box, nắm vững bản chất nhiệt động học, nguyên lý thiết bị, quy trình triển khai dự án từ bản vẽ thiết kế đến tối ưu vận hành và kiểm toán năng lượng chuẩn quốc tế.</p>
+          <div class="lecture-meta">
+            <span class="meta-tag">Tiêu chuẩn: ASHRAE Fundamentals / Systems / Applications / 90.1 / 170 / TC 9.9</span>
+            <span class="meta-tag">Kiểm toán: TCVN ISO 50002:2015 / ASHRAE 211 / IPMVP</span>
+            <span class="meta-tag">Quy chuẩn VN: QCVN 09:2017 / QCVN 02:2022 / TCVN 5687:2024</span>
           </div>
         </div>
 
         <div class="grid-3">
           <div class="card">
-            <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:5px;">CƯỜNG ĐỘ NĂNG LƯỢNG (EUI)</div>
-            <div style="font-size:1.8rem; font-weight:700; color:var(--primary);" id="dash-eui">135.4</div>
-            <div style="font-size:0.75rem; color:#48BB78; margin-top:5px;">● Đạt chuẩn Văn phòng Xanh (< 150 kWh/m2.y)</div>
+            <div class="card-title">GIAI ĐOẠN 1: THIẾT KẾ NỀN TẢNG</div>
+            <p class="prose" style="font-size:0.82rem;">Làm chủ nhiệt ẩm học Psychrometrics, tính tải làm lạnh RTS, khí động học mạng gió, thủy lực mạng nước và cấu hình hệ thống Chiller Plant.</p>
+            <div style="margin-top:10px;"><span class="badge badge-pass">3 Modules Cốt lõi</span></div>
           </div>
           <div class="card">
-            <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:5px;">HIỆU SUẤT TRẠM CHILLER</div>
-            <div style="font-size:1.8rem; font-weight:700; color:#2B6CB0;" id="dash-cop">0.718 <span style="font-size:0.9rem;">kW/RT</span></div>
-            <div style="font-size:0.75rem; color:#48BB78; margin-top:5px;">● COP ~ 4.90 (Hệ thống hiệu suất cao)</div>
+            <div class="card-title">GIAI ĐOẠN 2: CHUYÊN BIỆT HÓA CÔNG TRÌNH</div>
+            <p class="prose" style="font-size:0.82rem;">Thiết kế VAV văn phòng Hạng A, kiểm soát ẩm mốc và nước nóng khách sạn 5 sao, phòng mổ vô trùng ASHRAE 170, Data Center PUE TC 9.9.</p>
+            <div style="margin-top:10px;"><span class="badge badge-pass">5 Thể loại Dự án</span></div>
           </div>
           <div class="card">
-            <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:5px;">TIỀM NĂNG TIẾT KIỆM (ECMs)</div>
-            <div style="font-size:1.8rem; font-weight:700; color:#D69E2E;" id="dash-savings">640.2 <span style="font-size:0.9rem;">Tr VNĐ/y</span></div>
-            <div style="font-size:0.75rem; color:#3182CE; margin-top:5px;">● Thời gian hoàn vốn đầu tư: 1.25 năm</div>
+            <div class="card-title">GIAI ĐOẠN 3: VẬN HÀNH & AUDIT</div>
+            <p class="prose" style="font-size:0.82rem;">Đo kiểm thực địa, bắt bệnh Low Delta-T và cáu cặn bình ngưng, lập Baseline hồi quy CDD, phân tích tài chính ECMs (NPV, IRR, Payback) và nghiệm thu TAB.</p>
+            <div style="margin-top:10px;"><span class="badge badge-pass">Chứng chỉ ISO 50002 Ready</span></div>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-header">DANH MỤC CÁC MODULE KỸ THUẬT SẴN SÀNG</div>
-          <p style="font-size:0.88rem; color:#4A5568; line-height:1.6;">
-            Bộ công cụ bao gồm 7 Modules chuyên sâu được chuẩn hóa theo các tài liệu kỹ thuật cốt lõi của ASHRAE (Fundamentals, Applications, Systems & Equipment, Standard 90.1, 170, 62.1, TC 9.9) và hệ thống tiêu chuẩn kiểm toán năng lượng ISO 50001, ISO 50002. Kỹ sư có thể chọn từng module trên thanh điều hướng bên trái để tính toán trực tiếp.
+          <div class="card-title">TÀI LIỆU BÀI GIẢNG ĐÍNH KÈM TRONG THƯ MỤC HỆ THỐNG</div>
+          <p class="prose" style="font-size:0.85rem;">
+            Toàn bộ 7 bài giảng chuyên sâu đã được biên soạn chi tiết dạng tài liệu kỹ thuật dài hạn đặt tại thư mục <code>giao_trinh_chi_tiet/</code> và file tính toán chuyên sâu <code>MEP_Energy_Auditor_Master_Toolkit.xlsx</code>. Kỹ sư có thể click chọn các bài học bên trái để vừa học lý thuyết, vừa tương tác với công cụ tính toán ngay trong từng bài giảng.
           </p>
         </div>
       </div>
 
-      <!-- TAB 1: PSYCHROMETRICS & RTS LOAD -->
-      <div id="tab-psy" class="tab-pane">
+      <!-- TAB MOD 1: PSYCHROMETRICS & RTS -->
+      <div id="tab-mod1" class="tab-pane">
+        <div class="lecture-header">
+          <h2>BÀI 1: NHIỆT ẨM HỌC ỨNG DỤNG & PHƯƠNG PHÁP TÍNH TẢI ĐỈNH RTS</h2>
+          <p>Làm chủ 7 thông số nhiệt ẩm theo phương trình ASHRAE Fundamentals Ch. 1, phân biệt Heat Gain vs Cooling Load qua quán tính nhiệt kết cấu, và kiểm soát tải gió tươi nhiệt đới.</p>
+        </div>
+
         <div class="grid-2">
+          <!-- Cột Bài giảng Lý thuyết -->
           <div class="card">
-            <div class="card-header">1.1 TRA CỨU NHIỆT ẨM HỌC (ASHRAE FUNDAMENTALS CH. 1)</div>
-            <div class="form-group">
-              <label>Nhiệt độ bầu khô T_db (°C):</label>
-              <div class="input-row">
-                <input type="number" id="psy-tdb" class="form-control" value="35.0" step="0.5" oninput="calcPsychro()">
-                <span class="unit">°C</span>
+            <div class="card-title">LÝ THUYẾT & NGUYÊN LÝ VẬT LÝ CỐT LÕI</div>
+            <div class="prose">
+              <h3>1. Bảy thông số nhiệt ẩm & Phương trình ASHRAE:</h3>
+              <p>Không khí ẩm là hỗn hợp của không khí khô và hơi nước ($P_{atm} = P_{da} + P_w$). Áp suất hơi nước bão hòa $P_{ws}$ được tính chính xác theo ASHRAE Fundamentals Eq. 5 & 6:</p>
+              <code>ln(Pws) = C8/T + C9 + C10*T + C11*T^2 + C12*T^3 + C13*ln(T)</code>
+              <p>Dung ẩm $W = 0.621945 \cdot P_w / (P_{atm} - P_w)$. Enthalpy $h = 1.006 \cdot T_{db} + W \cdot (2501 + 1.86 \cdot T_{db})$.</p>
+
+              <h3>2. Tại sao phải dùng Phương pháp RTS thay vì tính nhẩm?</h3>
+              <div class="callout callout-warn">
+                <strong>Bản chất vật lý:</strong> Bức xạ mặt trời qua kính và nhiệt từ đèn chiếu sáng truyền vào phòng dưới dạng bức xạ không làm nóng không khí tức thời mà nung nóng sàn bê tông và tường xây. Kết cấu hấp thu nhiệt, rồi từ từ truyền nhiệt đối lưu vào phòng trong nhiều giờ. Do đó: <strong>Đỉnh tải làm lạnh (Cooling Load) luôn thấp hơn và trễ pha so với Nhiệt tức thời (Heat Gain)</strong>.
               </div>
-            </div>
-            <div class="form-group">
-              <label>Độ ẩm tương đối RH (%):</label>
-              <div class="input-row">
-                <input type="number" id="psy-rh" class="form-control" value="60.0" min="1" max="100" step="1" oninput="calcPsychro()">
-                <span class="unit">%</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Áp suất khí quyển địa phương:</label>
-              <div class="input-row">
-                <input type="number" id="psy-patm" class="form-control" value="101325" step="100" oninput="calcPsychro()">
-                <span class="unit">Pa</span>
-              </div>
-            </div>
-            <hr style="border:0; border-top:1px solid var(--border); margin:15px 0;">
-            <div class="metric-box">
-              <span class="metric-label">Enthalpy không khí (h):</span>
-              <span class="metric-val" id="psy-h">90.23 kJ/kg</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Dung ẩm tuyệt đối (W):</span>
-              <span class="metric-val" id="psy-w">21.44 g/kg</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Nhiệt độ đọng sương (T_dp):</span>
-              <span class="metric-val" id="psy-tdp">26.06 °C</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Áp suất hơi bão hòa (Pws):</span>
-              <span class="metric-val" id="psy-pws">5.628 kPa</span>
+
+              <h3>3. Tải gió tươi trong khí hậu nhiệt đới gió mùa:</h3>
+              <p>Tại Việt Nam (mùa hè $35^\circ C / 60\%\text{ RH}, W = 21.4\text{ g/kg}$), tải ẩn (khử ẩm) chiếm tới <strong>$70\% - 75\%$ tổng tải gió tươi</strong>. Không được đưa gió tươi ẩm trực tiếp vào dàn lạnh FCU phòng ngủ khách sạn vì sẽ làm dàn bị tràn ẩm, gây nồm mốc.</p>
             </div>
           </div>
 
+          <!-- Cột Công cụ Thực hành Tương tác -->
           <div class="card">
-            <div class="card-header">1.2 TÍNH TẢI LÀM LẠNH ĐỈNH RTS PHÒNG MẪU</div>
-            <div class="form-group">
-              <label>Diện tích sàn phòng (m2):</label>
-              <div class="input-row">
-                <input type="number" id="load-area" class="form-control" value="100" step="10" oninput="calcPeakLoad()">
-                <span class="unit">m2</span>
+            <div class="card-title">WORKSHOP TÍNH TOÁN NHIỆT ẨM & TẢI LẠNH TƯƠNG TÁC</div>
+            
+            <div style="background:#F1F5F9; padding:12px; border-radius:6px; margin-bottom:15px;">
+              <div style="font-weight:700; font-size:0.82rem; margin-bottom:8px; color:var(--secondary);">1. TRA CỨU NHIỆT ẨM HỌC TỨC THỜI</div>
+              <div class="form-group">
+                <label>Nhiệt độ bầu khô T_db (°C):</label>
+                <div class="input-row">
+                  <input type="number" id="p1-tdb" class="form-control" value="35.0" step="0.5" oninput="runMod1()">
+                  <span class="unit">°C</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Độ ẩm tương đối RH (%):</label>
+                <div class="input-row">
+                  <input type="number" id="p1-rh" class="form-control" value="60.0" step="1" oninput="runMod1()">
+                  <span class="unit">%</span>
+                </div>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Enthalpy (h):</span>
+                <span class="metric-val" id="p1-h">90.23 kJ/kg</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Dung ẩm tuyệt đối (W):</span>
+                <span class="metric-val" id="p1-w">21.44 g/kg</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Nhiệt độ đọng sương (T_dp):</span>
+                <span class="metric-val" id="p1-tdp">26.06 °C</span>
               </div>
             </div>
-            <div class="form-group">
-              <label>Số người trong phòng:</label>
-              <div class="input-row">
-                <input type="number" id="load-occ" class="form-control" value="12" step="1" oninput="calcPeakLoad()">
-                <span class="unit">người</span>
+
+            <div style="background:#F0FDF4; padding:12px; border-radius:6px;">
+              <div style="font-weight:700; font-size:0.82rem; margin-bottom:8px; color:#166534;">2. TÍNH TẢI ĐỈNH RTS CHO PHÒNG (W)</div>
+              <div class="form-group">
+                <label>Diện tích sàn (m2):</label>
+                <input type="number" id="p1-area" class="form-control" value="100" oninput="runMod1()">
               </div>
-            </div>
-            <div class="form-group">
-              <label>Mật độ công suất chiếu sáng (W/m2):</label>
-              <div class="input-row">
-                <input type="number" id="load-light" class="form-control" value="6.5" step="0.5" oninput="calcPeakLoad()">
-                <span class="unit">W/m2</span>
+              <div class="form-group">
+                <label>Số người trong phòng:</label>
+                <input type="number" id="p1-occ" class="form-control" value="10" oninput="runMod1()">
               </div>
-            </div>
-            <div class="form-group">
-              <label>Mật độ thiết bị máy tính, cắm ổ cắm (W/m2):</label>
-              <div class="input-row">
-                <input type="number" id="load-plug" class="form-control" value="12.0" step="1" oninput="calcPeakLoad()">
-                <span class="unit">W/m2</span>
+              <div class="form-group">
+                <label>Gió tươi thở theo ASHRAE 62.1 (L/s):</label>
+                <input type="number" id="p1-vent" class="form-control" value="95" oninput="runMod1()">
               </div>
-            </div>
-            <div class="form-group">
-              <label>Lưu lượng gió tươi (L/s):</label>
-              <div class="input-row">
-                <input type="number" id="load-vent" class="form-control" value="95" step="5" oninput="calcPeakLoad()">
-                <span class="unit">L/s</span>
+              <div class="metric-box" style="background:#DCFCE7;">
+                <span class="metric-label" style="font-weight:700;">TẢI LÀM LẠNH ĐỈNH:</span>
+                <span class="metric-val" id="p1-load" style="color:#15803D;">18.52 kW (5.27 RT)</span>
               </div>
-            </div>
-            <div class="metric-box" style="background:#EBF8FF; border:1px solid #BEE3F8;">
-              <span class="metric-label" style="font-weight:700;">TỔNG TẢI LẠNH YÊU CẦU:</span>
-              <span class="metric-val" id="load-result-kw" style="color:#2B6CB0;">18.52 kW (5.27 RT)</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- TAB 2: DUCT & PIPE SIZING -->
-      <div id="tab-fluid" class="tab-pane">
+      <!-- TAB MOD 2: DUCT & HYDRAULICS -->
+      <div id="tab-mod2" class="tab-pane">
+        <div class="lecture-header">
+          <h2>BÀI 2: KHÍ ĐỘNG HỌC MẠNG GIÓ & THỦY LỰC MẠNG ĐƯỜNG ỐNG NƯỚC</h2>
+          <p>Phương pháp Equal Friction, đường kính tương đương Huebscher, tiêu chuẩn âm học NC, phương trình Darcy-Weisbach và tính cột áp bơm / quạt toàn tuyến trở lực lớn nhất.</p>
+        </div>
+
         <div class="grid-2">
           <div class="card">
-            <div class="card-header">2.1 SIZING ỐNG GIÓ (EQUAL FRICTION & HUEBSCHER)</div>
-            <div class="form-group">
-              <label>Lưu lượng gió cấp qua ống (m3/h):</label>
-              <div class="input-row">
-                <input type="number" id="duct-flow" class="form-control" value="3500" step="100" oninput="calcDuct()">
-                <span class="unit">m3/h</span>
+            <div class="card-title">BẢN CHẤT VẬT LÝ & QUY TẮC THIẾT KẾ</div>
+            <div class="prose">
+              <h3>1. Khí động học ống gió:</h3>
+              <p>Ống chữ nhật kích thước $a \times b$ được quy đổi sang ống tròn tương đương $D_e$ theo Huebscher:</p>
+              <code>De = 1.30 * (a * b)^0.625 / (a + b)^0.250</code>
+              <p><strong>Giới hạn âm học NC:</strong> Tuyệt đối không chọn vận tốc quá $6.0 - 6.5\text{ m/s}$ cho khu vực văn phòng mở ($NC \le 35$) và không quá $3.0\text{ m/s}$ cho phòng ngủ khách sạn ($NC \le 25$).</p>
+
+              <h3>2. Thủy lực ống nước lạnh Darcy-Weisbach:</h3>
+              <code>hf = f * (L/D) * (V^2 / 2g)</code>
+              <p>Quy tắc vàng của kỹ sư thiết kế: Tổn thất ma sát giới hạn trong dải <strong>$1.0 - 3.0\text{ mH2O/100m}$ ($100 - 300\text{ Pa/m}$)</strong>. Vận tốc nước: $0.8 - 1.2\text{ m/s}$ cho ống nhánh $\le DN50$, $1.5 - 2.2\text{ m/s}$ cho ống chính $\ge DN100$.</p>
+
+              <h3>3. Phân biệt Hệ Kín (Closed Loop) & Hệ Hở (Open Loop):</h3>
+              <div class="callout callout-alert">
+                <strong>Sai lầm chết người của người mới:</strong> Trong mạch nước lạnh Chilled Water kín, áp suất tĩnh của tòa nhà cao 20 tầng bị <i>triệt tiêu hoàn toàn</i> giữa ống lên và ống xuống! Bơm chỉ cần thắng trở lực ma sát ($25 - 32\text{ mH2O}$). Nếu cộng thêm chiều cao tòa nhà $80\text{ m}$ vào cột áp bơm sẽ làm chọn bơm thừa áp gấp 3 lần, nổ đường ống và phá hủy cánh bơm!
               </div>
-            </div>
-            <div class="form-group">
-              <label>Tổn thất ma sát mục tiêu (Pa/m):</label>
-              <div class="input-row">
-                <input type="number" id="duct-friction" class="form-control" value="1.0" step="0.1" oninput="calcDuct()">
-                <span class="unit">Pa/m</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Giới hạn vận tốc tối đa (m/s):</label>
-              <div class="input-row">
-                <input type="number" id="duct-vmax" class="form-control" value="6.0" step="0.5" oninput="calcDuct()">
-                <span class="unit">m/s</span>
-              </div>
-            </div>
-            <hr style="border:0; border-top:1px solid var(--border); margin:15px 0;">
-            <div class="metric-box">
-              <span class="metric-label">Kích thước ống chữ nhật đề xuất:</span>
-              <span class="metric-val" id="duct-size" style="color:#2C5282;">500 x 350 mm</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Đường kính tròn tương đương (De):</span>
-              <span class="metric-val" id="duct-de">455 mm</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Vận tốc thực tế trong ống:</span>
-              <span class="metric-val" id="duct-v">5.56 m/s</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Tổn thất ma sát thực tế:</span>
-              <span class="metric-val" id="duct-dp">0.82 Pa/m</span>
             </div>
           </div>
 
           <div class="card">
-            <div class="card-header">2.2 THỦY LỰC MẠNG ĐƯỜNG ỐNG NƯỚC LẠNH (DARCY-WEISBACH)</div>
-            <div class="form-group">
-              <label>Công suất làm lạnh của mạch (kW):</label>
-              <div class="input-row">
-                <input type="number" id="pipe-kw" class="form-control" value="350" step="50" oninput="calcPipe()">
-                <span class="unit">kW</span>
+            <div class="card-title">WORKSHOP SIZING ỐNG GIÓ & NƯỚC THỰC CHIẾN</div>
+            
+            <div style="background:#F1F5F9; padding:12px; border-radius:6px; margin-bottom:15px;">
+              <div style="font-weight:700; font-size:0.82rem; margin-bottom:8px; color:var(--secondary);">1. SIZING ỐNG GIÓ CHỮ NHẬT</div>
+              <div class="form-group">
+                <label>Lưu lượng gió (m3/h):</label>
+                <input type="number" id="p2-qduct" class="form-control" value="3500" oninput="runMod2()">
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Kích thước ống chữ nhật đề xuất:</span>
+                <span class="metric-val" id="p2-ductsize" style="color:#1E40AF;">500 x 350 mm</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Vận tốc dòng chảy:</span>
+                <span class="metric-val" id="p2-ductv">5.56 m/s (NC 32 OK)</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Tổn thất ma sát:</span>
+                <span class="metric-val" id="p2-ductdp">0.82 Pa/m</span>
               </div>
             </div>
-            <div class="form-group">
-              <label>Độ chênh nhiệt độ nước cấp/hồi Delta T (°C):</label>
-              <div class="input-row">
-                <input type="number" id="pipe-dt" class="form-control" value="5.5" step="0.5" oninput="calcPipe()">
-                <span class="unit">°C</span>
+
+            <div style="background:#EFF6FF; padding:12px; border-radius:6px;">
+              <div style="font-weight:700; font-size:0.82rem; margin-bottom:8px; color:#1D4ED8;">2. SIZING ỐNG NƯỚC LẠNH (CHW)</div>
+              <div class="form-group">
+                <label>Công suất làm lạnh mạch (kW):</label>
+                <input type="number" id="p2-kwpipe" class="form-control" value="350" oninput="runMod2()">
               </div>
-            </div>
-            <hr style="border:0; border-top:1px solid var(--border); margin:15px 0;">
-            <div class="metric-box">
-              <span class="metric-label">Lưu lượng nước lạnh tính toán:</span>
-              <span class="metric-val" id="pipe-flow">54.7 m3/h (241 GPM)</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Đường kính ống thép SCH40 chọn:</span>
-              <span class="metric-val" id="pipe-dn" style="color:#2C5282;">DN125 (Trong 128 mm)</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Vận tốc dòng chảy:</span>
-              <span class="metric-val" id="pipe-v">1.18 m/s</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Tổn thất ma sát đơn vị:</span>
-              <span class="metric-val" id="pipe-hf">1.08 mH2O/100m</span>
+              <div class="metric-box">
+                <span class="metric-label">Lưu lượng nước lạnh tính toán:</span>
+                <span class="metric-val" id="p2-flowpipe">54.7 m3/h (241 GPM)</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Cỡ ống danh định SCH40:</span>
+                <span class="metric-val" id="p2-dnpipe" style="color:#1D4ED8;">DN125 (128 mm)</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Vận tốc & Ma sát:</span>
+                <span class="metric-val" id="p2-vpipe">1.18 m/s | 1.08 m/100m</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- TAB 3: CHILLER PLANT SIM -->
-      <div id="tab-plant" class="tab-pane">
-        <div class="card">
-          <div class="card-header">3.1 MÔ PHỎNG HIỆU SUẤT TỔNG THỂ TRẠM LẠNH (CHILLER PLANT TOTAL kW/RT)</div>
-          <div class="grid-3">
+      <!-- TAB MOD 3: CHILLER PLANT VPF -->
+      <div id="tab-mod3" class="tab-pane">
+        <div class="lecture-header">
+          <h2>BÀI 3: TRẠM CHILLER BIẾN LƯU LƯỢNG SƠ CẤP (VPF) & BƠM NHIỆT HEAT PUMP</h2>
+          <p>Chu trình nén hơi, công nghệ máy nén từ tính không dầu Turbocor, kiến trúc thủy lực VPF tiết kiệm 30% điện bơm, và chiến lược Wet-bulb Reset BMS.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">NGUYÊN LÝ THỦY LỰC & ĐIỀU KHIỂN TỐI ƯU TOÀN TRẠM</div>
+            <div class="prose">
+              <h3>1. Tại sao VPF là xu hướng bắt buộc của thế giới?</h3>
+              <p>Hệ thống VPF (Primary Variable Flow) loại bỏ hoàn toàn cụm bơm thứ cấp. Một cụm bơm biến tần duy nhất bơm thẳng từ Chiller lên các tầng. Khi tải giảm, van 2 ngả PICV tại AHU khép lại, cảm biến $\Delta P$ điều khiển bơm giảm tốc độ quay $\rightarrow$ Giảm mạnh điện năng bơm theo định luật đồng dạng ($P \sim Q^{2.4}$).</p>
+
+              <h3>2. Bí quyết điều khiển BMS hiệu năng cao:</h3>
+              <ul>
+                <li><strong>Wet-bulb Reset tháp giải nhiệt:</strong> Cứ hạ được $1.0^\circ C$ nhiệt độ nước giải nhiệt cấp vào Chiller nhờ điều khiển quạt tháp theo nhiệt độ bầu ướt ngoài trời, máy nén tiết kiệm được <strong>$1.5\% - 2.0\%$ điện năng</strong>!</li>
+                <li><strong>Chilled Water Reset:</strong> Khi tải thấp, nâng nhiệt độ nước lạnh từ $7.0^\circ C$ lên $8.5^\circ C$, máy nén tiết kiệm thêm <strong>$3.0\%$ điện</strong>.</li>
+              </ul>
+
+              <h3>3. Thu hồi nhiệt nước nóng Heat Pump:</h3>
+              <p>Bơm nhiệt thu hồi nhiệt thải bình ngưng sinh nước nóng $60^\circ C$ với $COP_{heating} \approx 4.0 - 4.5$, giảm $70\%$ tiền điện so với bình đun điện trở.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">MÔ PHỎNG TỔNG HIỆU SUẤT TOÀN TRẠM (PLANT kW/RT)</div>
             <div class="form-group">
-              <label>Tải lạnh hiện tại của toàn trạm (RT):</label>
-              <div class="input-row">
-                <input type="number" id="pl-rt" class="form-control" value="400" step="50" oninput="calcPlant()">
-                <span class="unit">RT</span>
-              </div>
+              <label>Tải làm lạnh hiện tại (RT):</label>
+              <input type="number" id="p3-rt" class="form-control" value="400" oninput="runMod3()">
             </div>
             <div class="form-group">
               <label>Công suất điện Chiller (kW):</label>
-              <div class="input-row">
-                <input type="number" id="pl-chiller-kw" class="form-control" value="220" step="10" oninput="calcPlant()">
-                <span class="unit">kW</span>
-              </div>
+              <input type="number" id="p3-ch" class="form-control" value="220" oninput="runMod3()">
             </div>
             <div class="form-group">
-              <label>Điện cụm bơm ChW sơ cấp/thứ cấp (kW):</label>
-              <div class="input-row">
-                <input type="number" id="pl-chwp-kw" class="form-control" value="22" step="2" oninput="calcPlant()">
-                <span class="unit">kW</span>
-              </div>
+              <label>Công suất điện Bơm nước lạnh ChW (kW):</label>
+              <input type="number" id="p3-chwp" class="form-control" value="22" oninput="runMod3()">
             </div>
             <div class="form-group">
-              <label>Điện cụm bơm giải nhiệt CdW (kW):</label>
-              <div class="input-row">
-                <input type="number" id="pl-cdwp-kw" class="form-control" value="30" step="2" oninput="calcPlant()">
-                <span class="unit">kW</span>
-              </div>
+              <label>Công suất điện Bơm giải nhiệt CdW (kW):</label>
+              <input type="number" id="p3-cdwp" class="form-control" value="30" oninput="runMod3()">
             </div>
             <div class="form-group">
-              <label>Điện quạt tháp giải nhiệt CT (kW):</label>
-              <div class="input-row">
-                <input type="number" id="pl-ct-kw" class="form-control" value="15" step="1" oninput="calcPlant()">
-                <span class="unit">kW</span>
-              </div>
+              <label>Công suất điện Quạt tháp giải nhiệt CT (kW):</label>
+              <input type="number" id="p3-ct" class="form-control" value="15" oninput="runMod3()">
             </div>
-            <div class="form-group">
-              <label>Tổng điện trạm tiêu thụ (kW):</label>
-              <div class="metric-box" style="margin-top:0;">
-                <span class="metric-val" id="pl-tot-kw">287.0 kW</span>
-              </div>
+            <hr style="border:0; border-top:1px solid var(--border); margin:15px 0;">
+            <div class="metric-box" style="background:#EFF6FF; border:1px solid #BFDBFE;">
+              <span class="metric-label" style="font-weight:700;">HIỆU SUẤT TOÀN TRẠM:</span>
+              <span class="metric-val" id="p3-plant-eff" style="color:#1D4ED8; font-size:1.3rem;">0.718 kW/RT</span>
             </div>
-          </div>
-
-          <div style="background:#EBF8FF; border:1px solid #BEE3F8; border-radius:8px; padding:20px; margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <div style="font-size:0.85rem; color:#2B6CB0; font-weight:700;">HIỆU SUẤT TOÀN TRẠM (TOTAL PLANT kW/RT)</div>
-              <div style="font-size:2.2rem; font-weight:800; color:var(--primary);" id="pl-kw-per-rt">0.718 kW/RT</div>
-            </div>
-            <div style="text-align:right;">
-              <span class="badge badge-pass" id="pl-badge" style="font-size:0.95rem; padding:6px 14px;">TỐT - HIGH EFFICIENCY</span>
-              <div style="font-size:0.8rem; color:#4A5568; margin-top:6px;" id="pl-rec">Đáp ứng tiêu chuẩn công trình xanh ASHRAE 90.1</div>
+            <div class="metric-box">
+              <span class="metric-label">Xếp hạng hiệu năng:</span>
+              <span class="badge badge-pass" id="p3-badge">TỐT (High Performance / ASHRAE 90.1)</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- TAB 4: SPECIALIZED FACILITIES -->
-      <div id="tab-facility" class="tab-pane">
+      <!-- TAB MOD 4: 5 FACILITY TYPES -->
+      <div id="tab-mod4" class="tab-pane">
+        <div class="lecture-header">
+          <h2>BÀI 4: THIẾT KẾ CHUYÊN BIỆT THEO 5 LOẠI HÌNH CÔNG TRÌNH</h2>
+          <p>Mỗi công trình có một "DNA kỹ thuật" riêng: Văn phòng VAV/DOAS, Khách sạn chống ẩm nồm, Bệnh viện ASHRAE 170 phòng mổ, Data Center ASHRAE TC 9.9, và Nhà xưởng làm mát áp suất dương.</p>
+        </div>
+
+        <div class="grid-equal-2">
+          <!-- Bệnh viện -->
+          <div class="card">
+            <div class="card-title">1. BỆNH VIỆN - PHÒNG MỔ (ASHRAE STANDARD 170)</div>
+            <div class="prose">
+              <p>Phòng mổ vô trùng bắt buộc phải có <strong>áp suất dương $\ge +2.5\text{ Pa}$</strong> để khi mở cửa, không khí vô trùng từ trong phòng tràn ra ngoài, ngăn vi khuẩn từ hành lang lọt vào.</p>
+              <ul>
+                <li>Bội số trao đổi khí tổng: <strong>$\ge 20\text{ ACH}$</strong>. Gió tươi ngoài: <strong>$\ge 4\text{ ACH}$</strong>.</li>
+                <li>Lọc 3 cấp: G4 + F8/F9 + <strong>HEPA H14 (99.99%)</strong> tại trần dòng chảy tầng (Laminar).</li>
+                <li>Hút khí thải đặt sát sàn ($100 - 150\text{ mm}$) để hút sạch thuốc mê và vi khuẩn rơi xuống.</li>
+              </ul>
+            </div>
+            <div style="background:#F0FDF4; padding:10px; border-radius:6px; margin-top:10px;">
+              <div class="form-group">
+                <label>Diện tích phòng mổ (m2) - Cao 3.0m:</label>
+                <input type="number" id="p4-hosp-a" class="form-control" value="45" oninput="runMod4()">
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Lưu lượng gió cấp tổng yêu cầu (20 ACH):</span>
+                <span class="metric-val" id="p4-hosp-flow" style="color:#15803D;">2,700 m3/h</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data Center -->
+          <div class="card">
+            <div class="card-title">2. TRUNG TÂM DỮ LIỆU (ASHRAE TC 9.9 & PUE)</div>
+            <div class="prose">
+              <p>Tải máy chủ Server sinh ra <strong>$100\%$ nhiệt hiện ($SHR = 1.0$)</strong>. Dải nhiệt độ cấp tối ưu (Class A1): <strong>$18^\circ C$ đến $27^\circ C$</strong>.</p>
+              <ul>
+                <li><strong>Hot/Cold Aisle Containment:</strong> Bắt buộc đóng vách kính cách ly hành lang nóng và lạnh để chống trộn gió lãng phí.</li>
+                <li>Chỉ số PUE = Total Facility Power / IT Power. Mục tiêu thiết kế PUE $\le 1.35$.</li>
+              </ul>
+            </div>
+            <div style="background:#FEF9C3; padding:10px; border-radius:6px; margin-top:10px;">
+              <div class="form-group">
+                <label>Tải điện IT Server (kW):</label>
+                <input type="number" id="p4-dc-it" class="form-control" value="500" oninput="runMod4()">
+              </div>
+              <div class="form-group">
+                <label>Điện làm mát CRAH/Chiller (kW):</label>
+                <input type="number" id="p4-dc-cool" class="form-control" value="160" oninput="runMod4()">
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Chỉ số PUE tính toán:</span>
+                <span class="metric-val" id="p4-dc-pue" style="color:#854D0E;">1.42 (Tốt)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB MOD 5: QCVN 09 & ASHRAE 90.1 -->
+      <div id="tab-mod5" class="tab-pane">
+        <div class="lecture-header">
+          <h2>BÀI 5: THẨM ĐỊNH QUY CHUẨN NĂNG LƯỢNG QCVN 09:2017 & ASHRAE 90.1</h2>
+          <p>Làm chủ phương pháp tính OTTV tường ngoài $\le 60\text{ W/m}^2$, tỷ lệ kính WWR, mật độ công suất chiếu sáng LPD và điều kiện hiệu suất tối thiểu của thiết bị cơ điện.</p>
+        </div>
+
         <div class="grid-2">
           <div class="card">
-            <div class="card-header">4.1 PHÒNG MỔ BỆNH VIỆN (ASHRAE STANDARD 170)</div>
-            <div class="form-group">
-              <label>Diện tích phòng mổ (m2):</label>
-              <input type="number" id="hosp-area" class="form-control" value="45" oninput="calcHospital()">
-            </div>
-            <div class="form-group">
-              <label>Chiều cao thông thủy (m):</label>
-              <input type="number" id="hosp-h" class="form-control" value="3.0" step="0.1" oninput="calcHospital()">
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Bội số trao đổi khí tối thiểu (Total ACH):</span>
-              <span class="metric-val">20 ACH</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Lưu lượng gió cấp tổng yêu cầu:</span>
-              <span class="metric-val" id="hosp-tot-flow">2,700 m3/h (750 L/s)</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Lưu lượng gió tươi ngoài (4 ACH):</span>
-              <span class="metric-val" id="hosp-oa-flow">540 m3/h</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Áp suất duy trì phòng mổ:</span>
-              <span class="metric-val" style="color:#2F855A;">+2.5 Pa (Áp suất dương)</span>
+            <div class="card-title">BẢN CHẤT CÔNG THỨC OTTV THEO QCVN 09:2017/BXD</div>
+            <div class="prose">
+              <code>OTTV = (Aw*Uw*TDeq + Af*Uf*ΔT + Af*SHGC*SC*SF) / Atot</code>
+              <p>Trong công thức trên, thành phần bức xạ mặt trời qua kính <code>Af * SHGC * SF</code> luôn <strong>chiếm $70\% - 80\%$ giá trị OTTV</strong>! Do đó, bí quyết giảm OTTV của kỹ sư chuyên nghiệp là chọn kính có hệ số <strong>$SHGC \le 0.32$</strong> kết hợp ô văng lam che nắng, thay vì tốn tiền xây tường quá dày.</p>
+              
+              <h3>Bảng đối chiếu Mật độ chiếu sáng LPD ($W/m^2$):</h3>
+              <table>
+                <thead>
+                  <tr><th>Khu vực</th><th>QCVN 09</th><th>ASHRAE 90.1</th><th>Thực tế đèn LED</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Văn phòng mở</td><td>$\le 9.0$</td><td>$\le 6.5$</td><td>$5.5 - 6.0$</td></tr>
+                  <tr><td>Phòng họp</td><td>$\le 10.0$</td><td>$\le 7.5$</td><td>$6.8 - 7.2$</td></tr>
+                  <tr><td>Hành lang</td><td>$\le 6.0$</td><td>$\le 4.5$</td><td>$3.5 - 4.0$</td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
           <div class="card">
-            <div class="card-header">4.2 TRUNG TÂM DỮ LIỆU & CHỈ SỐ PUE (ASHRAE TC 9.9)</div>
-            <div class="form-group">
-              <label>Công suất tải máy chủ / IT Load (kW):</label>
-              <input type="number" id="dc-it" class="form-control" value="500" oninput="calcDC()">
-            </div>
-            <div class="form-group">
-              <label>Công suất hệ làm mát CRAH/Chiller (kW):</label>
-              <input type="number" id="dc-cool" class="form-control" value="160" oninput="calcDC()">
-            </div>
-            <div class="form-group">
-              <label>Tổn thất điện UPS & Chiếu sáng (kW):</label>
-              <input type="number" id="dc-aux" class="form-control" value="50" oninput="calcDC()">
-            </div>
-            <div class="metric-box" style="background:#FEFCBF; border:1px solid #ECC94B;">
-              <span class="metric-label" style="font-weight:700;">CHỈ SỐ HIỆU QUẢ NĂNG LƯỢNG PUE:</span>
-              <span class="metric-val" id="dc-pue" style="font-size:1.6rem; color:#744210;">1.42</span>
-            </div>
-            <div class="metric-box">
-              <span class="metric-label">Đánh giá hiệu quả PUE:</span>
-              <span class="badge badge-pass" id="dc-eval">Tốt (Modern Efficient Data Center)</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 5: ENERGY CODES -->
-      <div id="tab-code" class="tab-pane">
-        <div class="card">
-          <div class="card-header">5.1 THẨM TRA CHỈ SỐ OTTV VỎ BAO CHE (QCVN 09:2017/BXD)</div>
-          <div class="grid-3">
+            <div class="card-title">WORKSHOP THẨM ĐỊNH OTTV TƯỜNG NGOÀI</div>
             <div class="form-group">
               <label>Tổng diện tích tường ngoài Aw_tot (m2):</label>
-              <input type="number" id="ottv-atot" class="form-control" value="1000" oninput="calcOTTV()">
+              <input type="number" id="p5-atot" class="form-control" value="1000" oninput="runMod5()">
             </div>
             <div class="form-group">
               <label>Diện tích cửa kính cửa sổ Af (m2):</label>
-              <input type="number" id="ottv-aglass" class="form-control" value="350" oninput="calcOTTV()">
+              <input type="number" id="p5-aglass" class="form-control" value="350" oninput="runMod5()">
             </div>
             <div class="form-group">
-              <label>Hệ số U-value tường xây (W/m2.K):</label>
-              <input type="number" id="ottv-uwall" class="form-control" value="1.8" step="0.1" oninput="calcOTTV()">
-            </div>
-            <div class="form-group">
-              <label>Hệ số U-value kính (W/m2.K):</label>
-              <input type="number" id="ottv-uglass" class="form-control" value="2.4" step="0.1" oninput="calcOTTV()">
+              <label>Hệ số truyền nhiệt kính U_glass (W/m2.K):</label>
+              <input type="number" id="p5-uglass" class="form-control" value="2.4" step="0.1" oninput="runMod5()">
             </div>
             <div class="form-group">
               <label>Hệ số hấp thụ bức xạ mặt trời kính SHGC:</label>
-              <input type="number" id="ottv-shgc" class="form-control" value="0.32" step="0.01" oninput="calcOTTV()">
+              <input type="number" id="p5-shgc" class="form-control" value="0.32" step="0.01" oninput="runMod5()">
             </div>
-            <div class="form-group">
-              <label>Tỷ lệ kính trên tường WWR:</label>
-              <div class="metric-box" style="margin-top:0;">
-                <span class="metric-val" id="ottv-wwr">35.0%</span>
-              </div>
+            <div class="metric-box">
+              <span class="metric-label">Tỷ lệ diện tích kính trên tường (WWR):</span>
+              <span class="metric-val" id="p5-wwr">35.0%</span>
             </div>
-          </div>
-
-          <div style="background:#F7FAFC; border:1px solid var(--border); border-radius:8px; padding:15px; margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <div style="font-size:0.85rem; color:#4A5568;">CHỈ SỐ TRUYỀN NHIỆT OTTV TÍNH TOÁN:</div>
-              <div style="font-size:1.8rem; font-weight:700; color:var(--primary);" id="ottv-val">32.8 W/m2</div>
-              <div style="font-size:0.8rem; color:#718096;">Giới hạn tối đa QCVN 09:2017: 60.0 W/m2</div>
+            <div class="metric-box" style="background:#DCFCE7;">
+              <span class="metric-label" style="font-weight:700;">CHỈ SỐ OTTV TƯỜNG:</span>
+              <span class="metric-val" id="p5-ottv" style="color:#15803D;">32.8 W/m2</span>
             </div>
-            <div>
-              <span class="badge badge-pass" id="ottv-badge" style="font-size:1rem; padding:8px 16px;">ĐẠT QUY CHUẨN QCVN 09</span>
+            <div class="metric-box">
+              <span class="metric-label">Kết luận tuân thủ QCVN 09 (&le; 60 W/m2):</span>
+              <span class="badge badge-pass" id="p5-badge">ĐẠT QUY CHUẨN XÂY DỰNG</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- TAB 6: ISO 50002 ENERGY AUDIT & LCCA -->
-      <div id="tab-audit" class="tab-pane">
-        <div class="card">
-          <div class="card-header">6.1 PHÂN TÍCH ĐO ĐẠC HIỆN TRƯỜNG CHILLER & CHẨN ĐOÁN LOW DELTA-T</div>
-          <div class="grid-3">
-            <div class="form-group">
-              <label>Lưu lượng nước lạnh đo đạc (m3/h):</label>
-              <input type="number" id="aud-flow" class="form-control" value="120.0" oninput="calcAudit()">
-            </div>
-            <div class="form-group">
-              <label>Nhiệt độ nước lạnh vào Chiller T_in (°C):</label>
-              <input type="number" id="aud-tin" class="form-control" value="10.5" step="0.1" oninput="calcAudit()">
-            </div>
-            <div class="form-group">
-              <label>Nhiệt độ nước lạnh ra Chiller T_out (°C):</label>
-              <input type="number" id="aud-tout" class="form-control" value="7.0" step="0.1" oninput="calcAudit()">
-            </div>
-            <div class="form-group">
-              <label>Công suất điện Chiller đo đạc (kW):</label>
-              <input type="number" id="aud-kw" class="form-control" value="115.0" oninput="calcAudit()">
-            </div>
-            <div class="form-group">
-              <label>Độ chênh lệch nhiệt độ Delta T đo đạc:</label>
-              <div class="metric-box" style="margin-top:0;">
-                <span class="metric-val" id="aud-dt">3.5 °C</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Tải lạnh thực tế sản sinh (RT):</label>
-              <div class="metric-box" style="margin-top:0;">
-                <span class="metric-val" id="aud-rt">138.9 RT</span>
-              </div>
-            </div>
-          </div>
-          <div class="metric-box" style="background:#FFF5F5; border:1px solid #FEB2B2;">
-            <div>
-              <div style="font-weight:700; color:#9B2C2C;">HIỆU SUẤT THỰC ĐỊA: <span id="aud-eff">0.828 kW/RT</span></div>
-              <div style="font-size:0.8rem; color:#742A2A;" id="aud-diag">Cảnh báo: Suy giảm Delta T (3.5°C so với thiết kế 5.5°C). Chiller chạy non tải giả tạo, bơm nước lãng phí điện.</div>
-            </div>
-            <span class="badge badge-warn">LOW DELTA-T ALERT</span>
-          </div>
+      <!-- TAB MOD 6: AUDIT & LCCA -->
+      <div id="tab-mod6" class="tab-pane">
+        <div class="lecture-header">
+          <h2>BÀI 6: KIỂM TOÁN NĂNG LƯỢNG ISO 50002, ĐO KIỂM THỰC ĐỊA & PHÂN TÍCH TÀI CHÍNH LCCA</h2>
+          <p>Quy trình kiểm toán 3 cấp độ, đo lưu lượng siêu âm, bắt bệnh Low Delta-T và cáu cặn bình ngưng, lập Baseline hồi quy CDD và phân tích tài chính đầu tư (NPV, IRR, Payback).</p>
         </div>
 
-        <div class="card">
-          <div class="card-header">6.2 PHÂN TÍCH TÀI CHÍNH GIẢI PHÁP TIẾT KIỆM NĂNG LƯỢNG (ECM LCCA)</div>
-          <div class="grid-2">
-            <div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">PHƯƠNG PHÁP BẮT BỆNH VẬN HÀNH THỰC TẾ</div>
+            <div class="prose">
+              <h3>1. Bệnh Low Delta-T (Chênh lệch nhiệt độ thấp):</h3>
+              <p>Thiết kế nước cấp $7^\circ C$, hồi $12.5^\circ C$ ($\Delta T = 5.5^\circ C$). Nhưng thực tế nước hồi về trạm chỉ $9.5^\circ C$ ($\Delta T = 2.5^\circ C$).</p>
+              <div class="callout callout-alert">
+                <strong>Hậu quả kinh tế:</strong> Vì $\Delta T$ giảm một nửa, bơm phải chạy hết công suất $100\%$ lưu lượng, tiêu hao điện bơm gấp $5$ lần! Chiller bị non tải giả tạo, người vận hành bật thêm máy thứ 2 làm trạm chạy ở dải hiệu suất cực thấp ($0.85 - 0.95\text{ kW/RT}$).
+              </div>
+              <p><strong>Cách chữa:</strong> Thay van 3 ngả cũ bằng van cân bằng động <strong>PICV</strong> tại toàn bộ dàn AHU/FCU.</p>
+
+              <h3>2. Bệnh Cáu cặn bình ngưng (Condenser Fouling):</h3>
+              <p>Hiệu số tiếp cận $\text{Approach} = T_{sat\_condenser} - T_{cw\_out}$. Khi bình ngưng sạch: $\text{Approach} \le 1.0^\circ C$. Khi bị cặn: $\text{Approach} > 2.0^\circ C$. Cứ tăng $1^\circ C$ Approach, Chiller tiêu tốn thêm <strong>$3.0\% - 3.5\%$ điện năng</strong>!</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">VIRTUAL AUDIT LAB: XỬ LÝ SỐ LIỆU ĐO ĐẠC & TÀI CHÍNH ECM</div>
+            <div style="background:#FFF5F5; padding:12px; border-radius:6px; margin-bottom:15px; border:1px solid #FECACA;">
+              <div style="font-weight:700; font-size:0.82rem; margin-bottom:6px; color:#991B1B;">1. PHÂN TÍCH NHẬT KÝ ĐO ĐẠC CHILLER HIỆN TRƯỜNG</div>
+              <div class="form-group">
+                <label>Lưu lượng nước lạnh đo bằng siêu âm (m3/h):</label>
+                <input type="number" id="p6-flow" class="form-control" value="120.0" oninput="runMod6()">
+              </div>
+              <div class="form-group">
+                <label>Nhiệt độ vào Chiller T_in (°C) - Ra 7.0°C:</label>
+                <input type="number" id="p6-tin" class="form-control" value="10.5" step="0.1" oninput="runMod6()">
+              </div>
+              <div class="form-group">
+                <label>Công suất điện Chiller đo bằng PQA (kW):</label>
+                <input type="number" id="p6-kw" class="form-control" value="115.0" oninput="runMod6()">
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Tải lạnh thực tế sản sinh:</span>
+                <span class="metric-val" id="p6-rt">138.9 RT (Delta-T = 3.5°C)</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Hiệu suất vận hành thực tế:</span>
+                <span class="metric-val" id="p6-eff" style="color:#DC2626;">0.828 kW/RT</span>
+              </div>
+              <span class="badge badge-warn" id="p6-diag-badge">CẢNH BÁO: BỊ HỘI CHỨNG LOW DELTA-T</span>
+            </div>
+
+            <div style="background:#F0FDF4; padding:12px; border-radius:6px; border:1px solid #BBF7D0;">
+              <div style="font-weight:700; font-size:0.82rem; margin-bottom:6px; color:#166534;">2. PHÂN TÍCH TÀI CHÍNH GIẢI PHÁP TIẾT KIỆM NĂNG LƯỢNG (ECM)</div>
               <div class="form-group">
                 <label>Chi phí đầu tư CAPEX giải pháp (VNĐ):</label>
-                <input type="number" id="lcca-capex" class="form-control" value="120000000" step="10000000" oninput="calcLCCA()">
+                <input type="number" id="p6-capex" class="form-control" value="120000000" step="10000000" oninput="runMod6()">
               </div>
               <div class="form-group">
                 <label>Tiền điện tiết kiệm hàng năm (VNĐ/năm):</label>
-                <input type="number" id="lcca-savings" class="form-control" value="220000000" step="10000000" oninput="calcLCCA()">
+                <input type="number" id="p6-sav" class="form-control" value="220000000" step="10000000" oninput="runMod6()">
               </div>
-            </div>
-            <div>
               <div class="metric-box">
                 <span class="metric-label">Thời gian hoàn vốn giản đơn (SPB):</span>
-                <span class="metric-val" id="lcca-spb" style="color:#2F855A;">0.55 năm (~ 6.5 tháng)</span>
+                <span class="metric-val" id="p6-spb" style="color:#15803D;">0.55 năm (~ 6.5 tháng)</span>
               </div>
               <div class="metric-box">
-                <span class="metric-label">Hiện giá thuần NPV (15 năm, r = 8%):</span>
-                <span class="metric-val" id="lcca-npv" style="color:#2F855A;">1.76 Tỷ VNĐ</span>
-              </div>
-              <div class="metric-box">
-                <span class="metric-label">Tỷ suất sinh lời nội hàm (IRR):</span>
-                <span class="metric-val" id="lcca-irr">183.3%</span>
+                <span class="metric-label">Hiện giá thuần NPV 15 năm (r=8%):</span>
+                <span class="metric-val" id="p6-npv" style="color:#15803D;">1.76 Tỷ VNĐ</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- TAB 7: COMMISSIONING & TAB & FDD -->
-      <div id="tab-cxtab" class="tab-pane">
-        <div class="card">
-          <div class="card-header">7.1 NGHIỆM THU CÂN BẰNG LƯU LƯỢNG MẠNG GIÓ (TAB PROTOCOL)</div>
-          <p style="font-size:0.85rem; color:#718096; margin-bottom:12px;">
-            Tiêu chuẩn nghiệm thu NEBB & ASHRAE: Sai lệch lưu lượng thực tế đo đạc tại các miệng gió nằm trong dải dung sai cho phép ± 10%.
-          </p>
-          <table>
-            <thead>
-              <tr>
-                <th>Vị trí miệng gió</th>
-                <th>Lưu lượng thiết kế (m3/h)</th>
-                <th>Lưu lượng đo đạc (m3/h)</th>
-                <th>Sai lệch (%)</th>
-                <th>Đánh giá nghiệm thu</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Miệng gió cấp SA-01 (P. Giám đốc)</td>
-                <td>450</td>
-                <td>470</td>
-                <td>+4.4%</td>
-                <td><span class="badge badge-pass">ĐẠT (PASS)</span></td>
-              </tr>
-              <tr>
-                <td>Miệng gió cấp SA-02 (P. Họp lớn)</td>
-                <td>800</td>
-                <td>760</td>
-                <td>-5.0%</td>
-                <td><span class="badge badge-pass">ĐẠT (PASS)</span></td>
-              </tr>
-              <tr>
-                <td>Miệng gió cấp SA-03 (Khu mở A)</td>
-                <td>600</td>
-                <td>580</td>
-                <td>-3.3%</td>
-                <td><span class="badge badge-pass">ĐẠT (PASS)</span></td>
-              </tr>
-              <tr>
-                <td>Miệng gió cấp SA-04 (Khu mở B)</td>
-                <td>600</td>
-                <td>630</td>
-                <td>+5.0%</td>
-                <td><span class="badge badge-pass">ĐẠT (PASS)</span></td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- TAB MOD 7: TAB & FDD -->
+      <div id="tab-mod7" class="tab-pane">
+        <div class="lecture-header">
+          <h2>BÀI 7: NGHIỆM THU VẬN HÀNH (COMMISSIONING - Cx), CÂN BẰNG TAB & CHẨN ĐOÁN LỖI FDD</h2>
+          <p>Quy trình thử nghiệm và cân bằng tỷ lệ (Proportional Balancing) theo chuẩn NEBB/AABC đạt dung sai &plusmn;10% và 5 luật chuyên gia phát hiện lỗi FDD tự động.</p>
+        </div>
+
+        <div class="grid-equal-2">
+          <div class="card">
+            <div class="card-title">NGHIỆM THU CÂN BẰNG LƯU LƯỢNG TAB (&plusmn;10%)</div>
+            <div class="prose">
+              <p>Theo tiêu chuẩn quốc tế NEBB, hệ thống phân phối gió được nghiệm thu khi lưu lượng thực tế đo tại mọi miệng gió nằm trong dải <strong>$90\% \le Ratio \le 110\%$</strong> so với thiết kế.</p>
+              <p><strong>Phương pháp cân bằng tỷ lệ:</strong> Tìm nhánh có tỷ số lưu lượng nhỏ nhất (Index Terminal), cân chỉnh lần lượt từ nhánh kế bên về nhánh chỉ số, cuối cùng chỉ cần chỉnh van tổng hoặc tần số quạt là toàn bộ hệ thống đạt chuẩn!</p>
+            </div>
+            <table>
+              <thead><tr><th>Miệng gió</th><th>Thiết kế (m3/h)</th><th>Đo đạc (m3/h)</th><th>Sai lệch</th><th>Nghiệm thu</th></tr></thead>
+              <tbody>
+                <tr><td>SA-01 P. Giám đốc</td><td>450</td><td>470</td><td>+4.4%</td><td><span class="badge badge-pass">ĐẠT (PASS)</span></td></tr>
+                <tr><td>SA-02 P. Họp lớn</td><td>800</td><td>760</td><td>-5.0%</td><td><span class="badge badge-pass">ĐẠT (PASS)</span></td></tr>
+                <tr><td>SA-03 Khu mở A</td><td>600</td><td>580</td><td>-3.3%</td><td><span class="badge badge-pass">ĐẠT (PASS)</span></td></tr>
+                <tr><td>SA-04 Khu mở B</td><td>600</td><td>630</td><td>+5.0%</td><td><span class="badge badge-pass">ĐẠT (PASS)</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-title">HỆ THỐNG QUY TẮC CHẨN ĐOÁN LỖI VẬN HÀNH TỰ ĐỘNG (FDD)</div>
+            <div class="metric-box" style="border-left:4px solid #DC2626; margin-bottom:12px;">
+              <div>
+                <div style="font-weight:700; color:#B91C1C;">FDD-01: XUNG ĐỘT NHIỆT AHU (SIMULTANEOUS HEAT & COOL)</div>
+                <div style="font-size:0.8rem; color:#475569;">Kích hoạt khi: Van nước lạnh mở > 15% VÀ Van sưởi mở > 10% đồng thời. Hậu quả: Lãng phí năng lượng kép. Khắc phục: Tách dải chết Deadband &ge; 1.5°C.</div>
+              </div>
+              <span class="badge badge-fail">LỖI XUNG ĐỘT</span>
+            </div>
+            <div class="metric-box" style="border-left:4px solid #D97706; margin-bottom:12px;">
+              <div>
+                <div style="font-weight:700; color:#B45309;">FDD-02: CÁU CẶN BÌNH NGƯNG CHILLER (FOULING)</div>
+                <div style="font-size:0.8rem; color:#475569;">Kích hoạt khi: Hiệu số tiếp cận Approach > 2.0°C ở mức tải > 60%. Hậu quả: Tốn thêm 3 - 6% điện Chiller. Khắc phục: Súc rửa cơ học hoặc lắp bóng ATCS.</div>
+              </div>
+              <span class="badge badge-warn">CẢNH BÁO BẢO TRÌ</span>
+            </div>
+            <div class="metric-box" style="border-left:4px solid #2563EB;">
+              <div>
+                <div style="font-weight:700; color:#1D4ED8;">FDD-03: KẸT VAN GIÓ TƯƠI DAMPER NGOÀI TRỜI</div>
+                <div style="font-size:0.8rem; color:#475569;">Kích hoạt khi: T_mix xấp xỉ T_outdoor dù van chỉ đặt 15%. Hậu quả: Quá tải ẩm cho Chiller. Khắc phục: Hiệu chỉnh actuator van gió.</div>
+              </div>
+              <span class="badge badge-pass">GIÁM SÁT BMS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB CASE STUDY -->
+      <div id="tab-case" class="tab-pane">
+        <div class="lecture-header">
+          <h2>CASE STUDY DỰ ÁN THỰC TẾ: TÒA NHÀ VĂN PHÒNG HẠNG A 25 TẦNG</h2>
+          <p>Dự án Tòa nhà Văn phòng Sao Khuê - 25 tầng nổi, 3 tầng hầm, diện tích sàn 25,000 m2 tại Quận 1, TP. Hồ Chí Minh. Toàn bộ chu trình từ khảo sát, tính tải, thiết kế VPF đến kiểm toán năng lượng.</p>
         </div>
 
         <div class="card">
-          <div class="card-header">7.2 HỆ THỐNG QUY TẮC CHẨN ĐOÁN LỖI VẬN HÀNH TỰ ĐỘNG (FDD EXPERT RULES)</div>
-          <div class="metric-box" style="border-left:4px solid #E53E3E; margin-bottom:12px;">
+          <div class="card-title">HỒ SƠ THIẾT KẾ KỸ THUẬT & CƠ SỞ CHỌN MÁY (BASIS OF DESIGN)</div>
+          <div class="grid-3">
             <div>
-              <div style="font-weight:700; color:#C53030;">FDD-01: XUNG ĐỘT NHIỆT (SIMULTANEOUS HEATING & COOLING)</div>
-              <div style="font-size:0.8rem; color:#4A5568;">Khi van lạnh AHU mở > 20% và van sưởi mở > 10% đồng thời $\rightarrow$ Báo lỗi xung đột dải chết Deadband tại DDC.</div>
+              <div style="font-size:0.8rem; color:#64748B;">TỔNG CÔNG SUẤT LẠNH THIẾT KẾ</div>
+              <div style="font-size:1.4rem; font-weight:700; color:var(--primary-accent);">1,200 RT (4,220 kW)</div>
+              <div style="font-size:0.75rem; color:#16A34A;">● Suất tải: 88 W/m2 sàn</div>
             </div>
-            <span class="badge badge-fail">LỖI LÃNG PHÍ CAO</span>
+            <div>
+              <div style="font-size:0.8rem; color:#64748B;">CẤU HÌNH TRẠM LẠNH CHÍNH</div>
+              <div style="font-size:1.1rem; font-weight:700; color:var(--secondary);">3 x 400 RT Chiller Ly tâm VFD</div>
+              <div style="font-size:0.75rem; color:#64748B;">● Thủy lực biến lưu lượng VPF</div>
+            </div>
+            <div>
+              <div style="font-size:0.8rem; color:#64748B;">TIẾT KIỆM NĂNG LƯỢNG ĐẠT ĐƯỢC</div>
+              <div style="font-size:1.4rem; font-weight:700; color:#16A34A;">26.8% so với Baseline</div>
+              <div style="font-size:0.75rem; color:#16A34A;">● Đạt chứng chỉ LEED Gold</div>
+            </div>
           </div>
-          <div class="metric-box" style="border-left:4px solid #DD6B20; margin-bottom:12px;">
-            <div>
-              <div style="font-weight:700; color:#C05621;">FDD-02: CÁU CẶN BÌNH NGƯNG CHILLER (CONDENSER FOULING)</div>
-              <div style="font-size:0.8rem; color:#4A5568;">Khi hiệu số Approach bình ngưng (T_sat_condenser - T_cw_out) > 2.0°C $\rightarrow$ Cảnh báo đóng cặn, yêu cầu tẩy rửa cơ học.</div>
-            </div>
-            <span class="badge badge-warn">CẢNH BÁO BẢO TRÌ</span>
+          <hr style="border:0; border-top:1px solid var(--border); margin:18px 0;">
+          <div class="prose">
+            <h3>Quy trình 6 bước triển khai dự án thực tế:</h3>
+            <ol>
+              <li><strong>Bước 1: Khảo sát kiến trúc & Tối ưu hóa vỏ bao che:</strong> Phối hợp với Kiến trúc sư chọn kính hộp Low-E $SHGC = 0.30$, đưa chỉ số $OTTV = 34.5\text{ W/m}^2$ (thỏa mãn $QCVN 09 \le 60\text{ W/m}^2$).</li>
+              <li><strong>Bước 2: Tính tải đỉnh bằng phương pháp RTS:</strong> Tách riêng tải nhiệt hiện và tải ẩn, áp dụng hệ số đồng thời $0.80$, xác định tải đỉnh trạm là $1,200\text{ RT}$.</li>
+              <li><strong>Bước 3: Lựa chọn công nghệ thiết bị:</strong> Chọn 3 tổ Chiller ly tâm giải nhiệt nước có biến tần VFD ($COP = 6.4$, $IPLV = 9.8$) chia đều tải. Lắp đặt 3 tháp giải nhiệt đối lưu cưỡng bức có quạt VFD.</li>
+              <li><strong>Bước 4: Sizing mạng đường ống VPF:</strong> Chọn ống góp chính $DN350$ ($V = 1.6\text{ m/s}$), thiết kế van bypass bảo vệ Chiller $DN150$ điều khiển bằng đồng hồ đo lưu lượng điện từ.</li>
+              <li><strong>Bước 5: Thiết kế hệ thống khí tươi DOAS thu hồi nhiệt:</strong> Thu hồi nhiệt năng từ gió thải vệ sinh và văn phòng bằng bánh xe quay Enthalpy Wheel, giảm $45\text{ RT}$ công suất Chiller.</li>
+              <li><strong>Bước 6: Nghiệm thu TAB & Giám sát FDD:</strong> Cân bằng toàn bộ mạng gió đạt sai số $<\pm 6\%$, lập trình 5 thuật toán FDD trên phần mềm BMS của tòa nhà.</li>
+            </ol>
           </div>
         </div>
       </div>
@@ -683,19 +726,20 @@
       event.currentTarget.classList.add('active');
       
       const titles = {
-        'tab-dash': '00_DASHBOARD: BẢNG ĐIỀU KHIỂN TỔNG QUAN',
-        'tab-psy': 'MODULE 1: NHIỆT ẨM HỌC & TẢI LÀM LẠNH ĐỈNH RTS',
-        'tab-fluid': 'MODULE 2: KHÍ ĐỘNG HỌC ỐNG GIÓ & THỦY LỰC ĐƯỜNG ỐNG',
-        'tab-plant': 'MODULE 3: MÔ PHỎNG TRẠM LẠNH TRUNG TÂM (CHILLER PLANT)',
-        'tab-facility': 'MODULE 4: THIẾT KẾ CÔNG TRÌNH CHUYÊN BIỆT',
-        'tab-code': 'MODULE 5: THẨM ĐỊNH QUY CHUẨN QCVN 09:2017 & ASHRAE 90.1',
-        'tab-audit': 'MODULE 6: KIỂM TOÁN NĂNG LƯỢNG ISO 50002 & HIỆU QUẢ TÀI CHÍNH',
-        'tab-cxtab': 'MODULE 7: NGHIỆM THU VẬN HÀNH (Cx - TAB) & CHẨN ĐOÁN LỖI FDD'
+        'tab-home': 'HỌC VIỆN KỸ SƯ HVAC & KIỂM TOÁN VIÊN MEP THỰC CHIẾN',
+        'tab-mod1': 'BÀI 1: NHIỆT ẨM HỌC ỨNG DỤNG & PHƯƠNG PHÁP TÍNH TẢI ĐỈNH RTS',
+        'tab-mod2': 'BÀI 2: KHÍ ĐỘNG HỌC MẠNG GIÓ & THỦY LỰC MẠNG ĐƯỜNG ỐNG',
+        'tab-mod3': 'BÀI 3: TRẠM CHILLER BIẾN LƯU LƯỢNG SƠ CẤP (VPF) & BƠM NHIỆT',
+        'tab-mod4': 'BÀI 4: THIẾT KẾ CHUYÊN BIỆT THEO 5 LOẠI HÌNH CÔNG TRÌNH',
+        'tab-mod5': 'BÀI 5: THẨM ĐỊNH QUY CHUẨN NĂNG LƯỢNG QCVN 09 & ASHRAE 90.1',
+        'tab-mod6': 'BÀI 6: KIỂM TOÁN NĂNG LƯỢNG ISO 50002, ĐO KIỂM THỰC ĐỊA & LCCA',
+        'tab-mod7': 'BÀI 7: NGHIỆM THU VẬN HÀNH (Cx - TAB) & CHẨN ĐOÁN LỖI FDD',
+        'tab-case': 'CASE STUDY DỰ ÁN THỰC TẾ: TÒA NHÀ VĂN PHÒNG HẠNG A 25 TẦNG'
       };
-      document.getElementById('page-title').innerText = titles[tabId] || 'MEP ENERGY MASTER';
+      document.getElementById('page-title').innerText = titles[tabId] || 'HỌC VIỆN MEP';
     }
 
-    // --- Module 1: Psychrometrics Calc ---
+    // --- Math Engine for Module 1 ---
     function satVaporPressure(t) {
       let T = t + 273.15;
       let c8 = -5.8002206e03, c9 = 1.3914993e00, c10 = -4.8640239e-02;
@@ -704,228 +748,139 @@
       return Math.exp(lnP);
     }
 
-    function calcPsychro() {
-      let tdb = parseFloat(document.getElementById('psy-tdb').value) || 35.0;
-      let rh = (parseFloat(document.getElementById('psy-rh').value) || 60.0) / 100.0;
-      let patm = parseFloat(document.getElementById('psy-patm').value) || 101325;
-      
+    function runMod1() {
+      let tdb = parseFloat(document.getElementById('p1-tdb').value) || 35.0;
+      let rh = (parseFloat(document.getElementById('p1-rh').value) || 60.0) / 100.0;
       let pws = satVaporPressure(tdb);
       let pw = rh * pws;
-      let w = 0.621945 * pw / Math.max(patm - pw, 1.0);
+      let w = 0.621945 * pw / Math.max(101325 - pw, 1.0);
       let h = 1.006 * tdb + w * (2501.0 + 1.86 * tdb);
-      
       let alpha = Math.log(pw / 1000.0);
       let tdp = 6.54 + 14.526*alpha + 0.7389*(alpha**2) + 0.09486*(alpha**3) + 0.4569*(Math.pow(pw/1000.0, 0.1984));
       
-      document.getElementById('psy-h').innerText = h.toFixed(2) + ' kJ/kg';
-      document.getElementById('psy-w').innerText = (w * 1000.0).toFixed(2) + ' g/kg';
-      document.getElementById('psy-tdp').innerText = tdp.toFixed(2) + ' °C';
-      document.getElementById('psy-pws').innerText = (pws / 1000.0).toFixed(3) + ' kPa';
+      document.getElementById('p1-h').innerText = h.toFixed(2) + ' kJ/kg';
+      document.getElementById('p1-w').innerText = (w * 1000.0).toFixed(2) + ' g/kg';
+      document.getElementById('p1-tdp').innerText = tdp.toFixed(2) + ' °C';
+
+      let area = parseFloat(document.getElementById('p1-area').value) || 100;
+      let occ = parseFloat(document.getElementById('p1-occ').value) || 10;
+      let vent = parseFloat(document.getElementById('p1-vent').value) || 95;
+      let q_w = (occ * 130 + area * 6.5 + area * 12.0 + area * 45 + vent * 1.2 * 40) * 1.1;
+      let q_kw = q_w / 1000.0;
+      let q_rt = q_kw / 3.51685;
+      document.getElementById('p1-load').innerText = q_kw.toFixed(2) + ' kW (' + q_rt.toFixed(2) + ' RT)';
     }
 
-    function calcPeakLoad() {
-      let area = parseFloat(document.getElementById('load-area').value) || 100;
-      let occ = parseFloat(document.getElementById('load-occ').value) || 10;
-      let light = parseFloat(document.getElementById('load-light').value) || 6.5;
-      let plug = parseFloat(document.getElementById('load-plug').value) || 12.0;
-      let vent = parseFloat(document.getElementById('load-vent').value) || 95;
-
-      let q_people = occ * 130; // 75W sensible + 55W latent
-      let q_light = area * light;
-      let q_plug = area * plug;
-      let q_env = area * 45; // Xấp xỉ tải bao che ~ 45 W/m2
-      let q_vent = vent * 1.2 * 40; // Gió tươi ~ 48 W per L/s trong khí hậu HCM
-
-      let total_w = (q_people + q_light + q_plug + q_env + q_vent) * 1.1; // 10% safety
-      let total_kw = total_w / 1000.0;
-      let total_rt = total_kw / 3.51685;
-
-      document.getElementById('load-result-kw').innerText = total_kw.toFixed(2) + ' kW (' + total_rt.toFixed(2) + ' RT)';
-    }
-
-    // --- Module 2: Duct & Pipe ---
-    function calcDuct() {
-      let q = parseFloat(document.getElementById('duct-flow').value) || 3500;
+    // --- Math Engine for Module 2 ---
+    function runMod2() {
+      let q = parseFloat(document.getElementById('p2-qduct').value) || 3500;
       let q_s = q / 3600.0;
       let de = Math.sqrt((4 * q_s) / (Math.PI * 5.5)) * 1000.0;
       let b = Math.sqrt((Math.PI/4)/1.5) * de;
       let a = 1.5 * b;
       let round_a = Math.ceil(a / 50) * 50;
       let round_b = Math.ceil(b / 50) * 50;
-      let area = (round_a * round_b) / 1e6;
-      let v = q_s / area;
+      let v = q_s / ((round_a * round_b) / 1e6);
       let dp = 0.02 * (1.204 / 2) * (v**2) / (de / 1000.0);
+      document.getElementById('p2-ductsize').innerText = round_a + ' x ' + round_b + ' mm';
+      document.getElementById('p2-ductv').innerText = v.toFixed(2) + ' m/s (NC ' + (v < 6.0 ? '32 OK' : '40 Cao') + ')';
+      document.getElementById('p2-ductdp').innerText = dp.toFixed(2) + ' Pa/m';
 
-      document.getElementById('duct-size').innerText = round_a + ' x ' + round_b + ' mm';
-      document.getElementById('duct-de').innerText = Math.round(de) + ' mm';
-      document.getElementById('duct-v').innerText = v.toFixed(2) + ' m/s';
-      document.getElementById('duct-dp').innerText = dp.toFixed(2) + ' Pa/m';
+      let kw = parseFloat(document.getElementById('p2-kwpipe').value) || 350;
+      let m3_h = (kw * 3600) / (1000 * 4.186 * 5.5);
+      let dn = m3_h < 65 ? "DN100" : (m3_h < 120 ? "DN125" : "DN150");
+      let din = dn === "DN100" ? 0.1023 : (dn === "DN125" ? 0.1282 : 0.1541);
+      let vp = (m3_h / 3600.0) / (Math.PI * (din**2) / 4.0);
+      let hf = (0.02 * (vp**2) / (2 * 9.81 * din)) * 100;
+      document.getElementById('p2-flowpipe').innerText = m3_h.toFixed(1) + ' m3/h (' + Math.round(m3_h * 4.403) + ' GPM)';
+      document.getElementById('p2-dnpipe').innerText = dn + ' (Trong ' + Math.round(din*1000) + ' mm)';
+      document.getElementById('p2-vpipe').innerText = vp.toFixed(2) + ' m/s | ' + hf.toFixed(2) + ' m/100m';
     }
 
-    function calcPipe() {
-      let kw = parseFloat(document.getElementById('pipe-kw').value) || 350;
-      let dt = parseFloat(document.getElementById('pipe-dt').value) || 5.5;
-      let m3_h = (kw * 3600) / (1000 * 4.186 * dt);
-      let gpm = m3_h * 4.40287;
-      
-      let dn = "DN125";
-      let d_in = 0.1282;
-      if (m3_h < 15) { dn = "DN50"; d_in = 0.0525; }
-      else if (m3_h < 35) { dn = "DN80"; d_in = 0.0779; }
-      else if (m3_h < 65) { dn = "DN100"; d_in = 0.1023; }
-      else if (m3_h < 120) { dn = "DN125"; d_in = 0.1282; }
-      else if (m3_h < 220) { dn = "DN150"; d_in = 0.1541; }
-      else { dn = "DN200"; d_in = 0.2027; }
-
-      let area = Math.PI * (d_in**2) / 4.0;
-      let v = (m3_h / 3600.0) / area;
-      let hf = (0.02 * (v**2) / (2 * 9.81 * d_in)) * 100;
-
-      document.getElementById('pipe-flow').innerText = m3_h.toFixed(1) + ' m3/h (' + Math.round(gpm) + ' GPM)';
-      document.getElementById('pipe-dn').innerText = dn + ' (Trong ' + Math.round(d_in*1000) + ' mm)';
-      document.getElementById('pipe-v').innerText = v.toFixed(2) + ' m/s';
-      document.getElementById('pipe-hf').innerText = hf.toFixed(2) + ' mH2O/100m';
-    }
-
-    // --- Module 3: Chiller Plant ---
-    function calcPlant() {
-      let rt = parseFloat(document.getElementById('pl-rt').value) || 400;
-      let ch = parseFloat(document.getElementById('pl-chiller-kw').value) || 220;
-      let chwp = parseFloat(document.getElementById('pl-chwp-kw').value) || 22;
-      let cdwp = parseFloat(document.getElementById('pl-cdwp-kw').value) || 30;
-      let ct = parseFloat(document.getElementById('pl-ct-kw').value) || 15;
-
-      let tot_kw = ch + chwp + cdwp + ct;
-      let eff = tot_kw / Math.max(rt, 1);
-
-      document.getElementById('pl-tot-kw').innerText = tot_kw.toFixed(1) + ' kW';
-      document.getElementById('pl-kw-per-rt').innerText = eff.toFixed(3) + ' kW/RT';
-      document.getElementById('dash-cop').innerHTML = eff.toFixed(3) + ' <span style="font-size:0.9rem;">kW/RT</span>';
-
-      let badge = document.getElementById('pl-badge');
-      let rec = document.getElementById('pl-rec');
+    // --- Math Engine for Module 3 ---
+    function runMod3() {
+      let rt = parseFloat(document.getElementById('p3-rt').value) || 400;
+      let ch = parseFloat(document.getElementById('p3-ch').value) || 220;
+      let chwp = parseFloat(document.getElementById('p3-chwp').value) || 22;
+      let cdwp = parseFloat(document.getElementById('p3-cdwp').value) || 30;
+      let ct = parseFloat(document.getElementById('p3-ct').value) || 15;
+      let eff = (ch + chwp + cdwp + ct) / Math.max(rt, 1);
+      document.getElementById('p3-plant-eff').innerText = eff.toFixed(3) + ' kW/RT';
+      let b = document.getElementById('p3-badge');
       if (eff < 0.65) {
-        badge.className = 'badge badge-pass';
-        badge.innerText = 'XUẤT SẮC - WORLD CLASS';
-        rec.innerText = 'Hệ thống đạt chuẩn LEED Platinum / Hiệu suất cao hàng đầu';
+        b.className = 'badge badge-pass'; b.innerText = 'XUẤT SẮC - WORLD CLASS';
       } else if (eff <= 0.75) {
-        badge.className = 'badge badge-pass';
-        badge.innerText = 'TỐT - HIGH EFFICIENCY';
-        rec.innerText = 'Đáp ứng chuẩn ASHRAE 90.1 và QCVN 09:2017';
-      } else if (eff <= 0.88) {
-        badge.className = 'badge badge-warn';
-        badge.innerText = 'TRUNG BÌNH';
-        rec.innerText = 'Có tiềm năng tiết kiệm 15-20% qua tối ưu điểm đặt ChW reset';
+        b.className = 'badge badge-pass'; b.innerText = 'TỐT (High Performance / ASHRAE 90.1)';
       } else {
-        badge.className = 'badge badge-fail';
-        badge.innerText = 'KÉM - CẦN KIỂM TOÁN NGAY';
-        rec.innerText = 'Cần kiểm toán năng lượng ISO 50002 để xử lý Low Delta-T và cặn tháp';
+        b.className = 'badge badge-warn'; b.innerText = 'TRUNG BÌNH (Cần tối ưu)';
       }
     }
 
-    // --- Module 4: Hospital & DC ---
-    function calcHospital() {
-      let a = parseFloat(document.getElementById('hosp-area').value) || 45;
-      let h = parseFloat(document.getElementById('hosp-h').value) || 3.0;
-      let v = a * h;
-      let tot = v * 20;
-      let oa = v * 4;
-      document.getElementById('hosp-tot-flow').innerText = Math.round(tot).toLocaleString() + ' m3/h (' + Math.round(tot/3.6) + ' L/s)';
-      document.getElementById('hosp-oa-flow').innerText = Math.round(oa).toLocaleString() + ' m3/h';
+    // --- Math Engine for Module 4 ---
+    function runMod4() {
+      let a = parseFloat(document.getElementById('p4-hosp-a').value) || 45;
+      let tot_flow = a * 3.0 * 20;
+      document.getElementById('p4-hosp-flow').innerText = Math.round(tot_flow).toLocaleString() + ' m3/h (' + Math.round(tot_flow/3.6) + ' L/s)';
+
+      let it = parseFloat(document.getElementById('p4-dc-it').value) || 500;
+      let cool = parseFloat(document.getElementById('p4-dc-cool').value) || 160;
+      let pue = (it + cool + 50) / Math.max(it, 1);
+      document.getElementById('p4-dc-pue').innerText = pue.toFixed(2) + ' (' + (pue < 1.3 ? 'Xuất sắc' : (pue < 1.5 ? 'Tốt' : 'Cao')) + ')';
     }
 
-    function calcDC() {
-      let it = parseFloat(document.getElementById('dc-it').value) || 500;
-      let cool = parseFloat(document.getElementById('dc-cool').value) || 160;
-      let aux = parseFloat(document.getElementById('dc-aux').value) || 50;
-      let pue = (it + cool + aux) / Math.max(it, 1);
-      document.getElementById('dc-pue').innerText = pue.toFixed(2);
-      let eval_el = document.getElementById('dc-eval');
-      if (pue < 1.25) {
-        eval_el.className = 'badge badge-pass';
-        eval_el.innerText = 'Xuất sắc (Hyperscale Level)';
-      } else if (pue <= 1.45) {
-        eval_el.className = 'badge badge-pass';
-        eval_el.innerText = 'Tốt (Modern Efficient)';
-      } else {
-        eval_el.className = 'badge badge-warn';
-        eval_el.innerText = 'Tiêu hao cao (Cần tối ưu cô lập luồng nóng/lạnh)';
-      }
-    }
-
-    // --- Module 5: OTTV ---
-    function calcOTTV() {
-      let atot = parseFloat(document.getElementById('ottv-atot').value) || 1000;
-      let aglass = parseFloat(document.getElementById('ottv-aglass').value) || 350;
-      let uw = parseFloat(document.getElementById('ottv-uwall').value) || 1.8;
-      let ug = parseFloat(document.getElementById('ottv-uglass').value) || 2.4;
-      let shgc = parseFloat(document.getElementById('ottv-shgc').value) || 0.32;
-
+    // --- Math Engine for Module 5 ---
+    function runMod5() {
+      let atot = parseFloat(document.getElementById('p5-atot').value) || 1000;
+      let aglass = parseFloat(document.getElementById('p5-aglass').value) || 350;
+      let ug = parseFloat(document.getElementById('p5-uglass').value) || 2.4;
+      let shgc = parseFloat(document.getElementById('p5-shgc').value) || 0.32;
       let aw = Math.max(atot - aglass, 0);
       let wwr = (aglass / atot) * 100.0;
-      let ottv = (aw * uw * 12.0 + aglass * ug * 5.0 + aglass * shgc * 130.0) / atot;
-
-      document.getElementById('ottv-wwr').innerText = wwr.toFixed(1) + '%';
-      document.getElementById('ottv-val').innerText = ottv.toFixed(1) + ' W/m2';
-      let b = document.getElementById('ottv-badge');
+      let ottv = (aw * 1.8 * 12.0 + aglass * ug * 5.0 + aglass * shgc * 130.0) / atot;
+      document.getElementById('p5-wwr').innerText = wwr.toFixed(1) + '%';
+      document.getElementById('p5-ottv').innerText = ottv.toFixed(1) + ' W/m2';
+      let b = document.getElementById('p5-badge');
       if (ottv <= 60.0) {
-        b.className = 'badge badge-pass';
-        b.innerText = 'ĐẠT QUY CHUẨN QCVN 09 (<= 60 W/m2)';
+        b.className = 'badge badge-pass'; b.innerText = 'ĐẠT QUY CHUẨN XÂY DỰNG QCVN 09';
       } else {
-        b.className = 'badge badge-fail';
-        b.innerText = 'KHÔNG ĐẠT (VƯỢT GIỚI HẠN QUY CHUẨN)';
+        b.className = 'badge badge-fail'; b.innerText = 'KHÔNG ĐẠT QUY CHUẨN';
       }
     }
 
-    // --- Module 6: Audit & LCCA ---
-    function calcAudit() {
-      let flow = parseFloat(document.getElementById('aud-flow').value) || 120;
-      let tin = parseFloat(document.getElementById('aud-tin').value) || 10.5;
-      let tout = parseFloat(document.getElementById('aud-tout').value) || 7.0;
-      let kw = parseFloat(document.getElementById('aud-kw').value) || 115;
-
-      let dt = tin - tout;
+    // --- Math Engine for Module 6 ---
+    function runMod6() {
+      let flow = parseFloat(document.getElementById('p6-flow').value) || 120;
+      let tin = parseFloat(document.getElementById('p6-tin').value) || 10.5;
+      let kw = parseFloat(document.getElementById('p6-kw').value) || 115;
+      let dt = tin - 7.0;
       let rt = (flow * dt * 4.186) / (3.6 * 3.51685);
       let eff = kw / Math.max(rt, 0.1);
+      document.getElementById('p6-rt').innerText = rt.toFixed(1) + ' RT (Delta-T = ' + dt.toFixed(1) + '°C)';
+      document.getElementById('p6-eff').innerText = eff.toFixed(3) + ' kW/RT';
 
-      document.getElementById('aud-dt').innerText = dt.toFixed(1) + ' °C';
-      document.getElementById('aud-rt').innerText = rt.toFixed(1) + ' RT';
-      document.getElementById('aud-eff').innerText = eff.toFixed(3) + ' kW/RT';
-
-      let diag = document.getElementById('aud-diag');
+      let diag = document.getElementById('p6-diag-badge');
       if (dt < 3.8) {
-        diag.innerText = 'Cảnh báo nghiêm trọng: Hội chứng chênh nhiệt độ thấp Low Delta-T (' + dt.toFixed(1) + '°C so với 5.5°C). Cần cân bằng lại mạng nước và kiểm tra rò rỉ van bypass.';
+        diag.className = 'badge badge-warn'; diag.innerText = 'CẢNH BÁO: BỊ HỘI CHỨNG LOW DELTA-T (MẤT 25% ĐIỆN BƠM)';
       } else {
-        diag.innerText = 'Mạng nước lạnh tuần hoàn trao đổi nhiệt tốt, nhiệt độ chênh lệch ổn định.';
+        diag.className = 'badge badge-pass'; diag.innerText = 'VẬN HÀNH BÌNH THƯỜNG - DELTA-T TỐT';
       }
-    }
 
-    function calcLCCA() {
-      let capex = parseFloat(document.getElementById('lcca-capex').value) || 120000000;
-      let sav = parseFloat(document.getElementById('lcca-savings').value) || 220000000;
+      let capex = parseFloat(document.getElementById('p6-capex').value) || 120000000;
+      let sav = parseFloat(document.getElementById('p6-sav').value) || 220000000;
       let spb = capex / Math.max(sav, 1);
-
       let npv = -capex;
-      for (let t = 1; t <= 15; t++) {
-        npv += sav / Math.pow(1.08, t);
-      }
-
-      document.getElementById('lcca-spb').innerText = spb.toFixed(2) + ' năm (~ ' + Math.round(spb * 12) + ' tháng)';
-      document.getElementById('lcca-npv').innerText = (npv / 1e9).toFixed(2) + ' Tỷ VNĐ';
-      document.getElementById('dash-savings').innerHTML = (sav / 1e6).toFixed(1) + ' <span style="font-size:0.9rem;">Tr VNĐ/y</span>';
+      for (let t = 1; t <= 15; t++) npv += sav / Math.pow(1.08, t);
+      document.getElementById('p6-spb').innerText = spb.toFixed(2) + ' năm (~ ' + Math.round(spb * 12) + ' tháng)';
+      document.getElementById('p6-npv').innerText = (npv / 1e9).toFixed(2) + ' Tỷ VNĐ';
     }
 
-    // Chạy tính toán ban đầu khi mở file
-    calcPsychro();
-    calcPeakLoad();
-    calcDuct();
-    calcPipe();
-    calcPlant();
-    calcHospital();
-    calcDC();
-    calcOTTV();
-    calcAudit();
-    calcLCCA();
+    // Chạy tính toán khởi động
+    runMod1();
+    runMod2();
+    runMod3();
+    runMod4();
+    runMod5();
+    runMod6();
   </script>
 </body>
 </html>
